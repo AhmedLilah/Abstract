@@ -1,0 +1,142 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+// anonymous syntax for tuples, structs, proc
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+///////////// declaration /////////////
+///////////// First  take /////////////
+
+
+// generic tuple;
+TupelName :: (s8, _ , u8)
+
+
+// generic struct
+StructName ::  {
+        member1 : s8,
+        member2 : _,
+        member3 : _
+}
+
+
+// generic procedure
+procName :: (param1 : T, param2 : T , param3 : bool) -> void {
+        code ...;
+        code ...;
+        code ...;
+}
+
+
+
+procName :: (param1 : f64, param2 : f64) {
+        param1 = x; // error
+
+} 
+//parameter passing type??
+// compiler decides the paramerter passing type.
+//      value/ref
+
+
+
+///////////// calling/instantiation /////////////
+
+// tuple 
+
+// instantiating the tuple 
+tupleVariable  : TupleName(s8);
+
+// instantiating a struct.
+structVariable : StructName(s8);
+
+// calling the function 
+procName(5, 50, true);
+
+
+
+/////////////// considirations //////////////
+
+// 1. should we even bother with tuples 
+
+
+
+
+
+///////////// declaration /////////////
+///////////// Second take /////////////
+
+// generic tuple;
+TupelName :: (s8, utf8, u8)
+
+
+// generic struct
+StructName :: struct (T : _ ) {
+        member1 : s8,
+        member2 : T,
+        member3 : bool
+}
+
+
+// generic procedure
+procName :: block/proc (param1 : s16, param2 : _ , param3 : bool) {
+        code ...;
+        code ...;
+        code ...;
+}
+
+
+
+
+///////////// calling/instantiation /////////////
+
+// tuple 
+
+// instantiating the tuple 
+tupleVariable  : TupleName(s8);
+
+// instantiating a struct.
+structVariable : StructName(s8);
+
+// calling the function 
+procName(5, 50, true);
+
+
+
+
+///////////// declaration /////////////
+///////////// Third  take /////////////
+
+// generic tuple;
+TupelName :: <T> (s8, T , u8)
+
+
+// generic struct
+StructName :: <T> {
+        member1 : s8,
+        member2 : T,
+        member3 : bool
+}
+
+
+// generic procedure
+procName :: <T> (param1 : s16, param2 : T , param3 : bool) {
+        code ...;
+        code ...;
+        code ...;
+}
+
+
+
+
+///////////// calling/instantiation /////////////
+
+// tuple 
+
+// instantiating the tuple 
+tupleVariable  : TupleName<s8>;
+
+// instantiating a struct.
+structVariable : StructName<s8>;
+
+// calling the function 
+procVariable   : procName<s8>;

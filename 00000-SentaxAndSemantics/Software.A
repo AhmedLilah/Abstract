@@ -1,0 +1,390 @@
+/////////////////////////////////////////////////////////
+// how to handle the need for member function
+/////////////////////////////////////////////////////////
+
+// 1. C++ like member function.
+// 2. jai like member function.
+// 3. unified function callign syntax.
+
+
+
+
+/////////////////////////////////////////////////////////
+// how to handle opertor overloading
+/////////////////////////////////////////////////////////
+
+// 1. the opertaor keyword.
+// 2. LaTeX like syntax.
+        // How to handle calling the operators
+                // 1. inline LaTeX.
+                // 2. smart operator calling.
+
+
+
+
+/////////////////////////////////////////////////////////
+// Simplified sytnax for procs, struct, tuples
+/////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////
+// anonymous syntax for use with sfotware and hardware code.
+//////////////////////////////////////////////////////////////
+
+
+// procedural blocks
+procName :: () {
+        // procedural block body
+}
+
+
+// structs
+strcutName ::  {
+        dataMemberName : type, 
+        dataMemberName : type, 
+        dataMemberName : type, 
+        dataMemberName : type, 
+}
+
+
+// tuples
+tupleNaem :: {type, type, type}
+
+
+// procedure 
+name :: (paramter: type) -> type {}                                             // return type
+name :: (paramter: type) -> namedreturn : type {};                              // named return type
+name :: (paramter: type) -> (type,type) {};                                     // tuple
+name :: (paramter: type) -> Name : (type,type) {};                              // named tuple
+name :: (paramter: type) -> {memberName : type, memberName : type} {};          // strcut
+name :: (paramter: type) -> Name {memberName : type, memberName : type} {};     // Named Struct
+
+
+
+name :: (paramter: type) -> type {
+        // implementation
+        return value;
+}
+
+name :: (paramter: type) -> namedreturn : type {
+        ...
+        namedreturn = value;
+        ...
+}
+
+
+name :: (paramter: type) -> (type,type) {
+        // implementation.
+        
+        return tupleValue;
+        return vlaue, value;
+}
+
+
+
+name :: (paramter: type) -> Name : (type,type) {
+        Name = value, value;
+}
+
+
+
+
+/////////////////////////////
+// Hardware context
+/////////////////////////////
+DDRBus :: {
+      Address   : [64] bit,
+      Data      : [64] bit,
+      ReadWrite : bit,  
+}
+
+Adder :: (A : [8] bit, B : [8] bit, Cin : bit) -> Sum : [8] bit, Cout : bit {
+        // hardware implementation
+}
+
+
+memoryController :: (memeoryInterfqace : DDRBus)   {
+        
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// defining a genrelic vector.
+Vector(T) :: struct {
+        data     : [] T;
+        size     : usize;
+        capacity : usize;
+}
+
+
+// pushes an element at the end of the vector if the capacity can take it.
+// otherwise it reasizes the vector and reallocate the old date and pushes back the element at the end.
+Vector(T).pushBack :: (value : T) -> ok : bool {
+        // pushes the element and update the size and capacity.
+        pushAndUpdate :: inline (newCapacity : usize) {
+                .capacity = newCapacity;
+                .data[size] = value;
+                .size++;
+                ok = true;
+        }
+                
+        if size < capacity {
+        // happy path: there is enough space to push back.
+                pushAndUpdate(.capacity);
+        } else if size == 0 {
+        // first time path: allocating for the first time.
+                newCapacity :: 32;
+                allocationOk : bool;
+                allocationOk, .data :: memory.allocate(T, newCapacity);
+                if allocationOk pushAndUPdate (newCapacity);
+                else ok = false;
+        } else {
+        // sad path: Need to resize and reallocate before push back.
+                newCapacity :: (.capacity as f64 * 1.2) as usize;
+                allocationOk : bool;
+                allocationOk, .data = memory.reallocate(T, newCapacity, .data, .capacity);
+                if allocationOk pushAndUPdate (newCapacity);
+                else ok = false;
+        }
+}
+
+
+// deletes the element at a specific index.
+Vector(T).deleteAt :: (index : usize) {
+        for idx in (index+1)..(size-2) {
+                 data[idx] = data[idx+1];
+        }
+}
+
+
+// subscript opreator.
+Vector(T).operator [] :: (index : ssize) -> @ T {
+        return data[index];
+}
+
+
+// freeing the memory owned by the vector.
+Vector(T).free :: () {
+        memory.free(.data);
+        .data = null;
+        .capacity, .size = 0;
+}
+
+
+// returns the number of elements in the vector.
+Vector(T).length :: () -> $ usize {
+        return .size;
+}
+
+
+// creating and empty vector of f32.
+slaries : Vector(f32);
+
+// freeing the memory at the end of scope.
+defer salaries.free();
+
+// populating the vector with data. 
+for idx in 0..10 {
+        salaries.pushBack(it);
+}
+
+
+// finding the index of a specific value
+for idx in 0..10 {
+        if salaries[idx] == 5 {
+                .deleteAt(idx);
+                break;
+        }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// new operator overloading syntax.
+// a LaTeX like syntax.
+`\sum_{start}^{end} {expression}` :: (start : ssize, end : ssize, expression : #string) -> sum : f64 { 
+        sum = 0;
+        for index in start..(end+1) {
+                sum += #insert Expression;
+        }
+}
+
+
+// inline LaTeX like syntax for the calling.
+// better at integration for using an already existig LaTeX compiler.
+totalPaidSalary := `\sum _{0} ^{salaries.length()} {"salaries[index]"}`;
+
+// smart  sytnax for calling operators.
+// it figures out the order of the parameters from the declaration.
+// needs a special implementation for the text editor.
+totalPaidSalary := `\sum` 0 salaries.length() "salaries[index]";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////
+AMS Hardware
+/////////////////////////////////////////////
+
+// Analog Behavioral Modeling
+CurrentMirror :: (t1 : inout current) -> t2 : inout current {
+        t2 = t1;
+}
+
+CurrentMirror :: (t1 : inout current) -> t2 : inout current {
+        t2 = t1;
+}
+
+
+// Digital RTL
+Adder :: (A : [8] bit, B : [8] bit, Cin : bit) -> Result : (Cout : bit, sum : [8] bit) {
+        Result = Cin + A + B;
+}
+
+Adder :: (A : b8, B : b8, Cin : bit) -> Result : (Cout : bit, sum : b8) {
+        Result = Cin + A + B;
+}
+
+Adder :: (A : u8, B : u8, Cin : bit) -> Result : (Cout : bit, sum : u8) {
+        Result = Cin + A + B;
+}
+
+
+// AMS Behavioral Modeling
+DAC :: (input : [8] bit, clk : bit, Vref : param f64) -> output : inout voltage = 0 {
+        if (clk) {
+                output = Vref * (input as f64 / 256.0); 
+        } else {
+                output = output;
+        }
+}
+
+DAC :: (input : u8, clk : bit, Vref : param f64) -> output : inout f64 = 0 {
+        if (clk) {
+                output = Vref * (input as f64 / 256.0); 
+        } else {
+                output = output;
+        }
+}
