@@ -1,0 +1,69 @@
+/////////////////////////////
+// Digital RTL
+/////////////////////////////
+
+// Data Flow
+Adder :: (A : [8] bit, B : [8] bit, Cin : bit) -> Result : (Cout : bit, sum : [8] bit) {
+        Result = Cin + A + B;
+}
+
+// Behavioral
+Mux :: (A : [8] bit, B : [8] bit, S : bit) -> Y : [8] bit {
+        if S == 0 {
+                Y :: A;
+        } else {
+                Y :: B;
+        }
+}
+
+// Structural
+FullAdder :: (A : bit, B : bit, Cin : bit) -> Result : (sum : bit, Cout : bit) {     
+        w1   :: Xor(A, B);
+        w2   :: Ans(A, B);
+        Sum  :: Xor(w1, Cin);
+        Cout :: And(w1, Cin);
+}
+
+
+
+
+/////////////////////////////
+// Analog Behavioral Modeling
+/////////////////////////////
+
+// Current Mirror
+CurrentMirror :: (t1 : current) -> t2 : current {
+        t2 = t1;
+}
+
+// Ideal Op-Amp
+OpAmp :: (P : voltage, N : voltage, gain : param f64) -> Output : voltage {
+        Output = (P - N) * gain;
+}
+
+// Resistor
+Resistor :: (t1 : electrical, t2 : electrical, resistance : f64) {
+        I(t1) = (V(t1) - V(t2)) / resistance;
+}
+
+
+
+
+/////////////////////////////
+// AMS Behavioral Modeling
+/////////////////////////////
+DAC :: (input : [8] bit, clk : bit, Vref : param f64) -> output : inout voltage = 0 {
+        if (clk) {
+                output = Vref * (input as f64 / 256.0); 
+        } else {
+                output = output;
+        }
+}
+
+DAC :: (input : u8, clk : bit, Vref : param f64) -> output : inout f64 = 0 {
+        if (clk) {
+                output = Vref * (input as f64 / 256.0); 
+        } else {
+                output = output;
+        }
+}

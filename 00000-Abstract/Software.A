@@ -1,3 +1,167 @@
+#import "Software/Basics.A"
+
+// main function 
+main :: () {
+    print("Hello, World!");
+}
+
+// Variable/Constant declaration.
+identifier : |type| : value;
+
+Pi :: 3.14; // f64 
+
+counter : u8 : 255;
+
+
+identifier : |type| = value;
+
+area := Pi * 2.0; // f64
+area = 0;
+
+areaf32 : f32 = (Pi * 2.0) as f32; 
+
+undeclVar : s64;
+
+undeclVar = 100823;
+
+
+// varialbe/constants packing/unpacking 
+identifier := value, value; // packing 
+identifier := (value1, value2); // tuple 
+
+
+pos :: (40, 22);
+
+x, y := pos;
+
+x = 0234;
+y = 489023;
+
+
+// (bool, fileContent)
+
+ok, fileContent := readFile("filepath.ext");
+
+
+if ok {
+    print("{fileContent}");
+}
+
+
+// nested packing/unpacking
+// (bool, RGB, Encoding) 
+
+
+ok, (R, G, B), encoding := calculationSomeColor();
+
+if ok {
+    print("R: {R}, G: {G}, B: {B}");
+}
+
+
+
+
+func :: () -> string, bool  {}
+
+func(); // Error: ignored funtion return.
+
+_ :: func();
+
+fileData, _ := func();
+
+
+
+// function as first class objects.
+func :: () -> () {
+        ...
+}
+
+fun1 :: () -> () {
+        ...
+}
+
+
+aliasToTheFunc := func;
+aliasToTheFunc = fun1;
+
+foreach :: (range : Range, operation : func) -> range : Range {
+        ...
+}
+
+foreach({1, 2, 3}, func);
+
+s8, s16, s32, s64 // signed integers
+u8, u16, u32, u64 // unsigned integers
+f16, f32, f64, f80, f128 // floating point types
+b8, b16, b32, b64, b128, b256, b512
+bit
+byte
+
+// from software prespective
+// procedure
+binaryAnd :: (A : [8] bit, B : [8] bit) -> Y : b8 {
+        Y = A & B;
+        A = 0b0000111; // Error: input parameter can't be assigned 
+        B = 0b0101010; // sucess.
+}
+
+// form hardware prespective 
+fullAdder :: (A : [7] bit, B : [7] bit) -> Y : b8 {
+        Y = A & B;
+}
+
+x := 0;
+func(x = 32, z = 023, y =8239);
+func :: (x : type = 0, y : type = 20, z : type= 40) {}
+func :: (y : type = 0, z : type = vlue);
+func(5, 6, 5);
+
+// calling function by named parameter in out of order sequence
+func(.y = 10); // can't pick the correct function call.
+func(_, .y = 10, _);
+func(.x = _, .y = 10);
+
+y := 23;
+func(getXValueFromuser(), 23, 32);
+
+// generic progamming 
+add :: (lhs : _, rhs : _) -> result : _ {
+    result = lhs + rhs;   
+}  
+
+// C
+struct rgba {
+        float r;
+        float g;
+        float b;
+        float a;
+}
+
+rgba white {.r = 40, .b = 32};
+
+// struct member proc
+Color :: Struct {
+    R, G, B : u8;
+}
+
+// should member functions by defaul pass a reference to the struct
+Color.print :: () {
+        ...
+}
+
+Color.print :: static () {
+
+}
+
+///////////////////////////////////////////
+Color.print :: (.:.) {
+    .R
+}
+
+// in rsut
+Color.print :: (Sefl&) {
+        ...
+}
 /////////////////////////////////////////////////////////
 // how to handle the need for member function
 /////////////////////////////////////////////////////////
@@ -5,9 +169,6 @@
 // 1. C++ like member function.
 // 2. jai like member function.
 // 3. unified function callign syntax.
-
-
-
 
 /////////////////////////////////////////////////////////
 // how to handle opertor overloading
@@ -19,42 +180,24 @@
                 // 1. inline LaTeX.
                 // 2. smart operator calling.
 
-
-
-
-/////////////////////////////////////////////////////////
-// Simplified sytnax for procs, struct, tuples
-/////////////////////////////////////////////////////////
-
-
-
-
-
-
-
 //////////////////////////////////////////////////////////////
 // anonymous syntax for use with sfotware and hardware code.
 //////////////////////////////////////////////////////////////
-
-
 // procedural blocks
 procName :: () {
         // procedural block body
 }
 
-
 // structs
-strcutName ::  {
+strcutName :: {
         dataMemberName : type, 
         dataMemberName : type, 
         dataMemberName : type, 
         dataMemberName : type, 
 }
 
-
 // tuples
 tupleNaem :: {type, type, type}
-
 
 // procedure 
 name :: (paramter: type) -> type {}                                             // return type
@@ -63,8 +206,6 @@ name :: (paramter: type) -> (type,type) {};                                     
 name :: (paramter: type) -> Name : (type,type) {};                              // named tuple
 name :: (paramter: type) -> {memberName : type, memberName : type} {};          // strcut
 name :: (paramter: type) -> Name {memberName : type, memberName : type} {};     // Named Struct
-
-
 
 name :: (paramter: type) -> type {
         // implementation
@@ -77,7 +218,6 @@ name :: (paramter: type) -> namedreturn : type {
         ...
 }
 
-
 name :: (paramter: type) -> (type,type) {
         // implementation.
         
@@ -85,14 +225,9 @@ name :: (paramter: type) -> (type,type) {
         return vlaue, value;
 }
 
-
-
 name :: (paramter: type) -> Name : (type,type) {
         Name = value, value;
 }
-
-
-
 
 /////////////////////////////
 // Hardware context
@@ -107,70 +242,125 @@ Adder :: (A : [8] bit, B : [8] bit, Cin : bit) -> Sum : [8] bit, Cout : bit {
         // hardware implementation
 }
 
-
 memoryController :: (memeoryInterfqace : DDRBus)   {
         
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+// anonymous syntax for tuples, structs, proc
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////// declaration /////////////
+
+///////////// First  take /////////////
+// generic tuple;
+TupelName :: (s8, _ , u8)
+
+// generic struct
+StructName ::  {
+        member1 : s8,
+        member2 : _,
+        member3 : _
+}
+
+// generic procedure
+procName :: (param1 : T, param2 : T , param3 : bool) -> void {
+        code ...;
+        code ...;
+        code ...;
+}
+
+procName :: (param1 : f64, param2 : f64) {
+        param1 = x; // error
+
+} 
+
+//parameter passing type??
+// compiler decides the paramerter passing type.
+//      value/ref
+
+///////////// calling/instantiation /////////////
+
+// tuple 
+
+// instantiating the tuple 
+tupleVariable  : TupleName(s8);
+
+// instantiating a struct.
+structVariable : StructName(s8);
+
+// calling the function 
+procName(5, 50, true);
 
 
+/////////////// considirations //////////////
+// 1. should we even bother with tuples 
 
+///////////// declaration /////////////
+///////////// Second take /////////////
+// generic tuple;
+TupelName :: (s8, utf8, u8)
 
+// generic struct
+StructName :: struct (T : _ ) {
+        member1 : s8,
+        member2 : T,
+        member3 : bool
+}
 
+// generic procedure
+procName :: block/proc (param1 : s16, param2 : _ , param3 : bool) {
+        code ...;
+        code ...;
+        code ...;
+}
 
+///////////// calling/instantiation /////////////
+// tuple 
 
+// instantiating the tuple 
+tupleVariable  : TupleName(s8);
 
+// instantiating a struct.
+structVariable : StructName(s8);
 
+// calling the function 
+procName(5, 50, true);
 
+///////////// declaration /////////////
+///////////// Third  take /////////////
+// generic tuple;
+TupelName :: <T> (s8, T , u8)
 
+// generic struct
+StructName :: <T> {
+        member1 : s8,
+        member2 : T,
+        member3 : bool
+}
 
+// generic procedure
+procName :: <T> (param1 : s16, param2 : T , param3 : bool) {
+        code ...;
+        code ...;
+        code ...;
+}
 
+///////////// calling/instantiation /////////////
+// tuple 
+// instantiating the tuple 
+tupleVariable  : TupleName<s8>;
 
+// instantiating a struct.
+structVariable : StructName<s8>;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// defining a genrelic vector.
+// calling the function 
+procVariable   : procName<s8>;
+// defining a generic vector.
 Vector(T) :: struct {
         data     : [] T;
         size     : usize;
         capacity : usize;
 }
-
 
 // pushes an element at the end of the vector if the capacity can take it.
 // otherwise it reasizes the vector and reallocate the old date and pushes back the element at the end.
@@ -203,7 +393,6 @@ Vector(T).pushBack :: (value : T) -> ok : bool {
         }
 }
 
-
 // deletes the element at a specific index.
 Vector(T).deleteAt :: (index : usize) {
         for idx in (index+1)..(size-2) {
@@ -211,12 +400,10 @@ Vector(T).deleteAt :: (index : usize) {
         }
 }
 
-
 // subscript opreator.
 Vector(T).operator [] :: (index : ssize) -> @ T {
         return data[index];
 }
-
 
 // freeing the memory owned by the vector.
 Vector(T).free :: () {
@@ -225,12 +412,10 @@ Vector(T).free :: () {
         .capacity, .size = 0;
 }
 
-
 // returns the number of elements in the vector.
 Vector(T).length :: () -> $ usize {
         return .size;
 }
-
 
 // creating and empty vector of f32.
 slaries : Vector(f32);
@@ -243,7 +428,6 @@ for idx in 0..10 {
         salaries.pushBack(it);
 }
 
-
 // finding the index of a specific value
 for idx in 0..10 {
         if salaries[idx] == 5 {
@@ -251,31 +435,6 @@ for idx in 0..10 {
                 break;
         }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // new operator overloading syntax.
 // a LaTeX like syntax.
@@ -286,7 +445,6 @@ for idx in 0..10 {
         }
 }
 
-
 // inline LaTeX like syntax for the calling.
 // better at integration for using an already existig LaTeX compiler.
 totalPaidSalary := `\sum _{0} ^{salaries.length()} {"salaries[index]"}`;
@@ -295,96 +453,3 @@ totalPaidSalary := `\sum _{0} ^{salaries.length()} {"salaries[index]"}`;
 // it figures out the order of the parameters from the declaration.
 // needs a special implementation for the text editor.
 totalPaidSalary := `\sum` 0 salaries.length() "salaries[index]";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/////////////////////////////////////////////
-AMS Hardware
-/////////////////////////////////////////////
-
-// Analog Behavioral Modeling
-CurrentMirror :: (t1 : inout current) -> t2 : inout current {
-        t2 = t1;
-}
-
-CurrentMirror :: (t1 : inout current) -> t2 : inout current {
-        t2 = t1;
-}
-
-
-// Digital RTL
-Adder :: (A : [8] bit, B : [8] bit, Cin : bit) -> Result : (Cout : bit, sum : [8] bit) {
-        Result = Cin + A + B;
-}
-
-Adder :: (A : b8, B : b8, Cin : bit) -> Result : (Cout : bit, sum : b8) {
-        Result = Cin + A + B;
-}
-
-Adder :: (A : u8, B : u8, Cin : bit) -> Result : (Cout : bit, sum : u8) {
-        Result = Cin + A + B;
-}
-
-
-// AMS Behavioral Modeling
-DAC :: (input : [8] bit, clk : bit, Vref : param f64) -> output : inout voltage = 0 {
-        if (clk) {
-                output = Vref * (input as f64 / 256.0); 
-        } else {
-                output = output;
-        }
-}
-
-DAC :: (input : u8, clk : bit, Vref : param f64) -> output : inout f64 = 0 {
-        if (clk) {
-                output = Vref * (input as f64 / 256.0); 
-        } else {
-                output = output;
-        }
-}
