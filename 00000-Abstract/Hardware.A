@@ -52,6 +52,8 @@ Resistor :: (t1 : electrical, t2 : electrical, resistance : f64) {
 /////////////////////////////
 // AMS Behavioral Modeling
 /////////////////////////////
+
+// Using a Vector of Bits for Digital Input
 DAC :: (input : [8] bit, clk : bit, Vref : param f64) -> output : inout voltage = 0 {
         if (clk) {
                 output = Vref * (input as f64 / 256.0); 
@@ -60,6 +62,7 @@ DAC :: (input : [8] bit, clk : bit, Vref : param f64) -> output : inout voltage 
         }
 }
 
+// Using an Unsigned 8-Bit Integer for Digital Input
 DAC :: (input : u8, clk : bit, Vref : param f64) -> output : inout f64 = 0 {
         if (clk) {
                 output = Vref * (input as f64 / 256.0); 
