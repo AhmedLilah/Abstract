@@ -24,6 +24,24 @@ FullAdder :: (A : bit, B : bit, Cin : bit) -> Result : (sum : bit, Cout : bit) {
         Cout :: And(w1, Cin);
 }
 
+// Defining a Bus 
+MainBus :: {
+        rw      : bit;
+        ready   : bit;
+        address : inout b64;
+        data    : inout b64;
+}
+
+// using the bus in the ram
+RAM :: (mainBus : MainBus) {
+        // implementation
+}
+
+// using the bus in the cpu
+CPU :: (mainBus : MainBus) {
+        // implementation
+}
+
 
 
 
